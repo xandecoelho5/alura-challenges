@@ -20,7 +20,10 @@ public abstract class GenericController<T, ID extends Serializable> {
     protected abstract void validaJaExisteRegistroComDescricaoParaOMes(T t);
 
     @GetMapping
-    public List<T> listar() {
+    public List<T> listar(@RequestParam(value = "descricao", required = false) String descricao) {
+        if (descricao != null) {
+            return getService().findAllByDescricaoContaining(descricao);
+        }
         return getService().findAll();
     }
 
@@ -57,7 +60,7 @@ public abstract class GenericController<T, ID extends Serializable> {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> excluirReceita(@PathVariable ID id) {
+    public ResponseEntity<String> excluir(@PathVariable ID id) {
         try {
             validaSeJaExiste(id);
             getService().deleteById(id);
@@ -65,5 +68,10 @@ public abstract class GenericController<T, ID extends Serializable> {
         } catch (RegistroNaoEncontradoException e) {
             return ResponseEntity.badRequest().body("Erro ao atualizar registro: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/{ano}/{mes}")
+    public List<T> findAllByAnoAndMes(@PathVariable("ano") Long ano, @PathVariable("mes") Long mes) {
+        return getService().findAllByAnoAndMes(ano, mes);
     }
 }

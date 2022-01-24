@@ -2,7 +2,6 @@ package com.alura.challengeback2.controller;
 
 import com.alura.challengeback2.exception.RegistroComDescricaoIgualNoMesmoMesException;
 import com.alura.challengeback2.exception.RegistroNaoEncontradoException;
-import com.alura.challengeback2.model.Despesa;
 import com.alura.challengeback2.model.Receita;
 import com.alura.challengeback2.service.GenericService;
 import com.alura.challengeback2.service.ReceitaService;
@@ -29,7 +28,7 @@ public class ReceitaController extends GenericController<Receita, Long> {
 
     @Override
     protected void validaJaExisteRegistroComDescricaoParaOMes(Receita receita) {
-        service.findByDescricaoAndDataMes(receita.getDescricao(), receita.getData().getMonthValue())
+        service.findByDescricaoAndDataMes(receita.getDescricao(), receita.getData().getYear(), receita.getData().getMonthValue())
                 .ifPresent(r -> {
                     throw new RegistroComDescricaoIgualNoMesmoMesException("receita");
                 });

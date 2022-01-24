@@ -28,7 +28,7 @@ public class DespesaController extends GenericController<Despesa, Long> {
 
     @Override
     protected void validaJaExisteRegistroComDescricaoParaOMes(Despesa despesa) {
-        service.findByDescricaoAndDataMes(despesa.getDescricao(), despesa.getData().getMonthValue())
+        service.findByDescricaoAndDataMes(despesa.getDescricao(), despesa.getData().getYear(), despesa.getData().getMonthValue())
                 .ifPresent(r -> {
                     throw new RegistroComDescricaoIgualNoMesmoMesException("despesa");
                 });

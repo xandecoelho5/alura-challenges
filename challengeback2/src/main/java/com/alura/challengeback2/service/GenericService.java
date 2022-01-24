@@ -14,5 +14,9 @@ public interface GenericService <T, ID extends Serializable> {
 
     void deleteById(ID id);
 
-    Optional<T> findByDescricaoAndDataMes(String descricao, Integer mes);
+    Optional<T> findByDescricaoAndDataMes(String descricao, Integer ano, Integer mes);
+
+    List<T> findAllByDescricaoContaining(String descricao);
+
+    List<T> findAllByAnoAndMes(Long ano, Long mes);
 }
