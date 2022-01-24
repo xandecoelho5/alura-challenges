@@ -1,2 +1,2 @@
 # alura-challenges
-Repositório para armazernar os challenges do alura
+Repositório para armazernar os challenges do alura.
