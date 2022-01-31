@@ -1,6 +1,6 @@
 package com.alura.challengeback2.controller;
 
-import com.alura.challengeback2.model.TO.Resumo;
+import com.alura.challengeback2.dto.ResumoDto;
 import com.alura.challengeback2.service.ResumoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("resumo/{ano}/{mes}")
+@RequestMapping("resumo")
 @RequiredArgsConstructor
 public class ResumoController {
 
     private final ResumoService service;
 
-    @GetMapping
-    public Resumo resumoDoMes(@PathVariable("ano") Long ano, @PathVariable("mes") Long mes) {
+    @GetMapping("/{ano}/{mes}")
+    public ResumoDto resumoDoMes(@PathVariable("ano") Integer ano, @PathVariable("mes") Integer mes) {
         return service.resumoDoMes(ano, mes);
     }
 }

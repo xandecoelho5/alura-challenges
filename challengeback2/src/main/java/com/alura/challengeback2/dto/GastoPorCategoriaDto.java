@@ -1,14 +1,12 @@
-package com.alura.challengeback2.model.TO;
+package com.alura.challengeback2.dto;
 
 import com.alura.challengeback2.model.Categoria;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
-public class CategoriaValor {
+public class GastoPorCategoriaDto {
 
     private Categoria categoria;
     private double valor;

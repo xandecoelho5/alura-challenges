@@ -4,6 +4,7 @@ import com.alura.challengeback2.model.Receita;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,11 +12,13 @@ import java.util.Optional;
 public interface ReceitaRepository extends GenericRepository<Receita, Long> {
 
     @Override
-    @Query(value = "SELECT * FROM RECEITA r " +
-            "WHERE (r.DESCRICAO = :descricao) AND (EXTRACT(YEAR FROM r.DATA) = :ano) AND (EXTRACT(MONTH FROM r.DATA) = :mes)", nativeQuery = true)
+    @Query("SELECT r FROM Receita r WHERE (r.descricao = :descricao) AND YEAR(r.data) = :ano and MONTH(r.data) = :mes")
     Optional<Receita> findByDescricaoAndDataMes(String descricao, Integer ano, Integer mes);
 
     @Override
-    @Query(value = "SELECT * FROM RECEITA r WHERE (EXTRACT(YEAR FROM r.DATA) = :ano) AND (EXTRACT(MONTH FROM r.DATA) = :mes)", nativeQuery = true)
-    List<Receita> findAllByAnoAndMes(Long ano, Long mes);
+    @Query("SELECT r FROM Receita r WHERE YEAR(r.data) = :ano and MONTH(r.data) = :mes")
+    List<Receita> findAllByAnoAndMes(Integer ano, Integer mes);
+
+    @Query("select sum(r.valor) from Receita r where YEAR(r.data) = :ano and MONTH(r.data) = :mes")
+    Optional<BigDecimal> somatorioDoMes(Integer ano, Integer mes);
 }

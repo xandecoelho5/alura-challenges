@@ -1,0 +1,13 @@
+melhorar retornos do controller (Status)
+
+adicionar modelMapper para conversão de DTOs
+
+implementar DTOs para as Classes
+
+alterar de double para BigDecimal
+
+extrair para uma superClasse as informações repetidas entre Despesa/Receita
+Ex: Recurso, usando @Inheritance
+
+usando select new informando o nome completo da Class
+

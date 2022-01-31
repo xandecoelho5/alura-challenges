@@ -1,22 +1,27 @@
 package com.alura.challengeback2.service;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-public interface GenericService <T, ID extends Serializable> {
+public interface GenericService <T, ID, Y> {
 
-    List<T> findAll();
+//    List<T> saveAll(Iterable<T> entities);
 
-    T save(T receita);
+//    List<T> salvarTodos(Iterable<T> entities);
 
-    Optional<T> findById(ID id);
+    List<Y> listar();
 
-    void deleteById(ID id);
+    Y cadastrar(Y dto);
+
+    Y atualizar(ID id, Y dto);
+
+    Optional<Y> findById(ID id);
+
+    void excluir(ID id);
 
     Optional<T> findByDescricaoAndDataMes(String descricao, Integer ano, Integer mes);
 
-    List<T> findAllByDescricaoContaining(String descricao);
+    List<Y> findAllByDescricaoContaining(String descricao);
 
-    List<T> findAllByAnoAndMes(Long ano, Long mes);
+    List<Y> findAllByAnoAndMes(Integer ano, Integer mes);
 }

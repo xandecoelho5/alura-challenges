@@ -8,70 +8,60 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.Serializable;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 
-public abstract class GenericController<T, ID extends Serializable> {
+public abstract class GenericController<T, ID, Y> {
 
-    protected abstract GenericService<T, ID> getService();
-
-    protected abstract T validaSeJaExiste(ID id);
-
-    protected abstract void validaJaExisteRegistroComDescricaoParaOMes(T t);
+    protected abstract GenericService<T, ID, Y> getService();
 
     @GetMapping
-    public List<T> listar(@RequestParam(value = "descricao", required = false) String descricao) {
+    public ResponseEntity<List<Y>> listar(@RequestParam(value = "descricao", required = false) String descricao) {
         if (descricao != null) {
-            return getService().findAllByDescricaoContaining(descricao);
+            return new ResponseEntity<>(getService().findAllByDescricaoContaining(descricao), HttpStatus.FOUND);
         }
-        return getService().findAll();
+        return new ResponseEntity<>(getService().listar(), HttpStatus.FOUND);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Y> detalhar(@PathVariable @NotNull ID id) {
+        Optional<Y> dto = getService().findById(id);
+        return dto.map(y -> new ResponseEntity<>(y, HttpStatus.FOUND)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity<String> cadastrar(@RequestBody @Valid T t) {
+    public ResponseEntity<?> cadastrar(@RequestBody @Valid Y dto) {
         try {
-            validaJaExisteRegistroComDescricaoParaOMes(t);
-            getService().save(t);
-            return new ResponseEntity<>("Registro salvo com sucesso!", HttpStatus.CREATED);
+            Y cadastrado = getService().cadastrar(dto);
+            return new ResponseEntity<>(cadastrado, HttpStatus.CREATED);
         } catch (RegistroComDescricaoIgualNoMesmoMesException e) {
             return ResponseEntity.badRequest().body("Erro ao salvar registro: " + e.getMessage());
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<T> detalhar(@PathVariable ID id) {
-        try {
-            return ResponseEntity.ok(validaSeJaExiste(id));
-        } catch (RegistroNaoEncontradoException e) {
-            return ResponseEntity.noContent().build();
-        }
-    }
-
     @PutMapping("/{id}")
-    public ResponseEntity<String> atualizar(@PathVariable ID id, @RequestBody T t) {
+    public ResponseEntity<?> atualizar(@PathVariable ID id, @RequestBody Y dto) {
         try {
-            validaSeJaExiste(id);
-            validaJaExisteRegistroComDescricaoParaOMes(t);
-            getService().save(t);
-            return ResponseEntity.ok("Registro atualizado com sucesso!");
+            Y atualizado = getService().atualizar(id, dto);
+            return ResponseEntity.ok(atualizado);
         } catch (RegistroComDescricaoIgualNoMesmoMesException | RegistroNaoEncontradoException e) {
             return ResponseEntity.badRequest().body("Erro ao atualizar registro: " + e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> excluir(@PathVariable ID id) {
+    public ResponseEntity<String> excluir(@PathVariable @NotNull ID id) {
         try {
-            validaSeJaExiste(id);
-            getService().deleteById(id);
-            return ResponseEntity.ok("Registro atualizado com sucesso!");
+            getService().excluir(id);
+            return ResponseEntity.noContent().build();
         } catch (RegistroNaoEncontradoException e) {
-            return ResponseEntity.badRequest().body("Erro ao atualizar registro: " + e.getMessage());
+            return ResponseEntity.badRequest().body("Erro ao excluir registro: " + e.getMessage());
         }
     }
 
     @GetMapping("/{ano}/{mes}")
-    public List<T> findAllByAnoAndMes(@PathVariable("ano") Long ano, @PathVariable("mes") Long mes) {
+    public List<Y> findAllByAnoAndMes(@PathVariable("ano") Integer ano, @PathVariable("mes") Integer mes) {
         return getService().findAllByAnoAndMes(ano, mes);
     }
 }
