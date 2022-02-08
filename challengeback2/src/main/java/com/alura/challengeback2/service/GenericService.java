@@ -5,19 +5,17 @@ import java.util.Optional;
 
 public interface GenericService <T, ID, Y> {
 
-//    List<T> saveAll(Iterable<T> entities);
-
-//    List<T> salvarTodos(Iterable<T> entities);
+    List<Y> salvarTodos(Iterable<Y> dtoList);
 
     List<Y> listar();
 
     Y cadastrar(Y dto);
 
-    Y atualizar(ID id, Y dto);
+    Optional<Y> atualizar(ID id, Y dto);
 
     Optional<Y> findById(ID id);
 
-    void excluir(ID id);
+    Optional<Boolean> excluir(ID id);
 
     Optional<T> findByDescricaoAndDataMes(String descricao, Integer ano, Integer mes);
 

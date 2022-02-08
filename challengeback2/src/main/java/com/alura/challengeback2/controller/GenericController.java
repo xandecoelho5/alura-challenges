@@ -1,7 +1,6 @@
 package com.alura.challengeback2.controller;
 
 import com.alura.challengeback2.exception.RegistroComDescricaoIgualNoMesmoMesException;
-import com.alura.challengeback2.exception.RegistroNaoEncontradoException;
 import com.alura.challengeback2.service.GenericService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,23 +40,19 @@ public abstract class GenericController<T, ID, Y> {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizar(@PathVariable ID id, @RequestBody Y dto) {
+    public ResponseEntity<?> atualizar(@PathVariable ID id, @RequestBody @Valid Y dto) {
         try {
-            Y atualizado = getService().atualizar(id, dto);
-            return ResponseEntity.ok(atualizado);
-        } catch (RegistroComDescricaoIgualNoMesmoMesException | RegistroNaoEncontradoException e) {
+            Optional<Y> atualizado = getService().atualizar(id, dto);
+            return atualizado.map(y -> new ResponseEntity<>(y, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        } catch (RegistroComDescricaoIgualNoMesmoMesException e) {
             return ResponseEntity.badRequest().body("Erro ao atualizar registro: " + e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> excluir(@PathVariable @NotNull ID id) {
-        try {
-            getService().excluir(id);
-            return ResponseEntity.noContent().build();
-        } catch (RegistroNaoEncontradoException e) {
-            return ResponseEntity.badRequest().body("Erro ao excluir registro: " + e.getMessage());
-        }
+    public ResponseEntity<?> excluir(@PathVariable @NotNull ID id) {
+        Optional<Boolean> foiExcluido = getService().excluir(id);
+        return foiExcluido.map(y -> ResponseEntity.noContent().build()).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/{ano}/{mes}")

@@ -16,8 +16,6 @@ public abstract class GenericServiceImpl<T, ID, Y> implements GenericService<T, 
 
     protected abstract ModelMapper getMapper();
 
-    protected abstract Y validaSeJaExiste(ID id);
-
     protected abstract void validaJaExisteRegistroComDescricaoParaOMes(Y dto);
 
     protected abstract void changeEntityId(ID id, T entity);
@@ -48,9 +46,11 @@ public abstract class GenericServiceImpl<T, ID, Y> implements GenericService<T, 
     }
 
     @Override
-    public Y atualizar(ID id, Y dto) {
-        validaSeJaExiste(id);
-        return salvar(dto, id);
+    public Optional<Y> atualizar(ID id, Y dto) {
+        if (getRepository().findById(id).isPresent()) {
+            return Optional.of(salvar(dto, id));
+        }
+        return Optional.empty();
     }
 
     private Y salvar(Y dto, ID id) {
@@ -61,10 +61,11 @@ public abstract class GenericServiceImpl<T, ID, Y> implements GenericService<T, 
         return mapEntityToDto(entity);
     }
 
-//    @Override
-//    public List<T> saveAll(Iterable<T> entities) {
-//        return getRepository().saveAll(entities);
-//    }
+    @Override
+    public List<Y> salvarTodos(Iterable<Y> dtoList) {
+        List<T> entities = getRepository().saveAll(mapDtoListToEntity((List<Y>) dtoList));
+        return mapEntityListToDto(entities);
+    }
 
     @Override
     @Transactional
@@ -75,9 +76,12 @@ public abstract class GenericServiceImpl<T, ID, Y> implements GenericService<T, 
 
     @Override
     @Transactional
-    public void excluir(ID id) {
-        validaSeJaExiste(id);
-        getRepository().deleteById(id);
+    public Optional<Boolean> excluir(ID id) {
+        if (getRepository().findById(id).isPresent()) {
+            getRepository().deleteById(id);
+            return Optional.of(true);
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -105,9 +109,15 @@ public abstract class GenericServiceImpl<T, ID, Y> implements GenericService<T, 
         return getMapper().map(dto, entityClass);
     }
 
-    private List<Y> mapEntityListToDto(List<T> objectList) {
-        return objectList.stream()
+    private List<Y> mapEntityListToDto(List<T> entityList) {
+        return entityList.stream()
                 .map(this::mapEntityToDto)
+                .collect(Collectors.toList());
+    }
+
+    private List<T> mapDtoListToEntity(List<Y> dtoList) {
+        return dtoList.stream()
+                .map(this::mapDtoToEntity)
                 .collect(Collectors.toList());
     }
 }

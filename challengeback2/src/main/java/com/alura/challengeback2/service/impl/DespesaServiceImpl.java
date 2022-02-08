@@ -2,7 +2,6 @@ package com.alura.challengeback2.service.impl;
 
 import com.alura.challengeback2.dto.DespesaDto;
 import com.alura.challengeback2.exception.RegistroComDescricaoIgualNoMesmoMesException;
-import com.alura.challengeback2.exception.RegistroNaoEncontradoException;
 import com.alura.challengeback2.model.Categoria;
 import com.alura.challengeback2.model.Despesa;
 import com.alura.challengeback2.repository.DespesaRepository;
@@ -27,11 +26,6 @@ public class DespesaServiceImpl extends GenericServiceImpl<Despesa, Long, Despes
     @Override
     protected ModelMapper getMapper() {
         return modelMapper;
-    }
-
-    @Override
-    protected DespesaDto validaSeJaExiste(Long id) {
-        return findById(id).orElseThrow(() -> new RegistroNaoEncontradoException("Despesa", id));
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.alura.challengeback2.service.impl;
 
 import com.alura.challengeback2.dto.ReceitaDto;
 import com.alura.challengeback2.exception.RegistroComDescricaoIgualNoMesmoMesException;
-import com.alura.challengeback2.exception.RegistroNaoEncontradoException;
 import com.alura.challengeback2.model.Receita;
 import com.alura.challengeback2.repository.GenericRepository;
 import com.alura.challengeback2.repository.ReceitaRepository;
@@ -26,11 +25,6 @@ public class ReceitaServiceImpl extends GenericServiceImpl<Receita, Long, Receit
     @Override
     protected ModelMapper getMapper() {
         return modelMapper;
-    }
-
-    @Override
-    protected ReceitaDto validaSeJaExiste(Long id) {
-        return findById(id).orElseThrow(() -> new RegistroNaoEncontradoException("Receita", id));
     }
 
     @Override
