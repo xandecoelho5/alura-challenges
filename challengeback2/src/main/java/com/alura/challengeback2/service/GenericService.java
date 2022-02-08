@@ -5,8 +5,6 @@ import java.util.Optional;
 
 public interface GenericService <T, ID, Y> {
 
-    List<Y> salvarTodos(Iterable<Y> dtoList);
-
     List<Y> listar();
 
     Y cadastrar(Y dto);

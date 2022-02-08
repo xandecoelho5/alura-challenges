@@ -62,12 +62,6 @@ public abstract class GenericServiceImpl<T, ID, Y> implements GenericService<T, 
     }
 
     @Override
-    public List<Y> salvarTodos(Iterable<Y> dtoList) {
-        List<T> entities = getRepository().saveAll(mapDtoListToEntity((List<Y>) dtoList));
-        return mapEntityListToDto(entities);
-    }
-
-    @Override
     @Transactional
     public Optional<Y> findById(ID id) {
         Optional<T> byId = getRepository().findById(id);
