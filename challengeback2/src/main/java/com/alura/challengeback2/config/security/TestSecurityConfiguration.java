@@ -1,4 +1,4 @@
-package com.alura.challengeback2.config;
+package com.alura.challengeback2.config.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

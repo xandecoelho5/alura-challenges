@@ -1,10 +1,10 @@
 package com.alura.challengeback2.controller;
 
-import com.alura.challengeback2.config.dto.LoginDto;
-import com.alura.challengeback2.config.dto.TokenDto;
-import com.alura.challengeback2.config.dto.UsuarioDto;
-import com.alura.challengeback2.config.service.TokenService;
-import com.alura.challengeback2.config.service.UsuarioService;
+import com.alura.challengeback2.config.security.dto.LoginDto;
+import com.alura.challengeback2.config.security.dto.TokenDto;
+import com.alura.challengeback2.config.security.dto.UsuarioDto;
+import com.alura.challengeback2.config.security.service.TokenService;
+import com.alura.challengeback2.config.security.service.UsuarioService;
 import com.alura.challengeback2.model.Usuario;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;

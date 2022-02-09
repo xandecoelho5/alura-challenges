@@ -1,4 +1,4 @@
-package com.alura.challengeback2.config.service;
+package com.alura.challengeback2.config.security.service;
 
 import com.alura.challengeback2.model.Usuario;
 import io.jsonwebtoken.Claims;

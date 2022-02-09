@@ -1,6 +1,6 @@
-package com.alura.challengeback2.config.service;
+package com.alura.challengeback2.config.security.service;
 
-import com.alura.challengeback2.config.dto.UsuarioDto;
+import com.alura.challengeback2.config.security.dto.UsuarioDto;
 import com.alura.challengeback2.model.Usuario;
 import com.alura.challengeback2.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;

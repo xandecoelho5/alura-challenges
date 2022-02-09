@@ -1,4 +1,4 @@
-package com.alura.challengeback2.config.dto;
+package com.alura.challengeback2.config.security.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,6 @@
-package com.alura.challengeback2.config;
+package com.alura.challengeback2.config.security;
 
-import com.alura.challengeback2.config.service.TokenService;
+import com.alura.challengeback2.config.security.service.TokenService;
 import com.alura.challengeback2.model.Usuario;
 import com.alura.challengeback2.repository.UsuarioRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
