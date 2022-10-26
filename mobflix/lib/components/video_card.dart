@@ -3,6 +3,7 @@ import 'package:mobflix/components/category_chip.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/video.dart';
+import '../utils/assets.dart';
 
 class VideoCard extends StatelessWidget {
   const VideoCard({Key? key, required this.video}) : super(key: key);
@@ -21,19 +22,22 @@ class VideoCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CategoryChip(category: video.category),
+        CategoryChip(category: video.category!),
         const SizedBox(height: 8),
         GestureDetector(
           onTap: _launchUrl,
           child: Container(
-            height: 180,
+            height: 165,
+            width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              image: DecorationImage(
-                image: AssetImage(video.thumbnail),
-                fit: BoxFit.fill,
-              ),
               boxShadow: kElevationToShadow[4],
+            ),
+            child: FadeInImage(
+              image: NetworkImage(video.thumbnail),
+              placeholder: const AssetImage(Assets.preview),
+              imageErrorBuilder: (c, e, s) => Image.asset(Assets.preview),
+              fit: BoxFit.cover,
             ),
           ),
         ),

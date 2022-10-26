@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobflix/components/filled_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../utils/assets.dart';
@@ -28,19 +29,10 @@ class HighlightBanner extends StatelessWidget {
         ),
         Positioned(
           bottom: 15,
-          child: ElevatedButton(
+          child: FilledButton(
             onPressed: _launchUrl,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: kMainBlueColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              padding: const EdgeInsets.fromLTRB(9, 9, 9, 10),
-            ),
-            child: const Text(
-              'Assista agora',
-              style: TextStyle(fontFamily: 'Roboto', fontSize: 18),
-            ),
+            text: 'Assistir agora',
+            color: kMainBlueColor,
           ),
         ),
       ],

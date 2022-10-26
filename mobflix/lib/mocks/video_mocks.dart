@@ -1,25 +1,24 @@
 import 'package:mobflix/mocks/category_mock.dart';
 import 'package:mobflix/models/video.dart';
-
-import '../utils/assets.dart';
+import 'package:mobflix/utils/constants.dart';
 
 final videoMocks = [
   Video(
     id: 1,
-    url: 'https://www.youtube.com/watch?v=pcnfjJG3jY4',
+    url: '${kYoutubeBaseUrl}pcnfjJG3jY4',
     category: categoryMocks[2],
-    thumbnail: Assets.mobile1,
+    thumbnail: '${kYoutubeThumbnailBaseUrl}pcnfjJG3jY4/0.jpg',
   ),
   Video(
     id: 2,
-    url: 'https://www.youtube.com/watch?v=fmu1LQvZhms',
+    url: '${kYoutubeBaseUrl}fmu1LQvZhms',
     category: categoryMocks[2],
-    thumbnail: Assets.mobile2,
+    thumbnail: '${kYoutubeThumbnailBaseUrl}fmu1LQvZhms/0.jpg',
   ),
   Video(
     id: 3,
-    url: 'https://www.youtube.com/watch?v=4AH9H_dx_7g',
+    url: '${kYoutubeBaseUrl}4AH9H_dx_7g',
     category: categoryMocks[2],
-    thumbnail: Assets.mobile3,
+    thumbnail: '${kYoutubeThumbnailBaseUrl}4AH9H_dx_7g/0.jpg',
   ),
 ];
