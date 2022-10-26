@@ -34,9 +34,24 @@ class VideoCard extends StatelessWidget {
               boxShadow: kElevationToShadow[4],
             ),
             child: FadeInImage(
+              fadeInDuration: const Duration(milliseconds: 200),
               image: NetworkImage(video.thumbnail),
               placeholder: const AssetImage(Assets.preview),
-              imageErrorBuilder: (c, e, s) => Image.asset(Assets.preview),
+              imageErrorBuilder: (c, e, s) {
+                // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                //   ScaffoldMessenger.of(c).hideCurrentSnackBar();
+                //   ScaffoldMessenger.of(c).showSnackBar(
+                //     SnackBar(
+                //       content: const Text(
+                //         'Não encontrado thumbnail para esta URL',
+                //       ),
+                //       backgroundColor: Theme.of(c).errorColor,
+                //       duration: const Duration(seconds: 2),
+                //     ),
+                //   );
+                // });
+                return Image.asset(Assets.preview);
+              },
               fit: BoxFit.cover,
             ),
           ),

@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:mobflix/models/category.dart';
 
-class Video {
+class Video extends Equatable {
   static int _id = 0;
 
   final int id;
@@ -33,4 +34,7 @@ class Video {
       thumbnail: thumbnail ?? this.thumbnail,
     );
   }
+
+  @override
+  List<Object?> get props => [url, category];
 }
