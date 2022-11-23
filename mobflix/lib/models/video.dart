@@ -2,9 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:mobflix/models/category.dart';
 
 class Video extends Equatable {
-  static int _id = 0;
-
-  final int id;
+  final String id;
   final String url;
   final Category? category;
   final String thumbnail;
@@ -16,13 +14,13 @@ class Video extends Equatable {
     required this.thumbnail,
   });
 
-  Video.empty([this.category])
-      : id = _id++,
+  const Video.empty([this.category])
+      : id = '',
         url = '',
         thumbnail = '';
 
   Video copyWith({
-    int? id,
+    String? id,
     String? url,
     Category? category,
     String? thumbnail,
@@ -36,5 +34,5 @@ class Video extends Equatable {
   }
 
   @override
-  List<Object?> get props => [url, category];
+  List<Object?> get props => [id, category];
 }

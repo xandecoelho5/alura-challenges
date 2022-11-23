@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobflix/components/category_chip.dart';
+import 'package:mobflix/screens/edit_video_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/video.dart';
@@ -17,6 +18,13 @@ class VideoCard extends StatelessWidget {
     }
   }
 
+  void _onLongPress(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EditVideoScreen(video: video)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,6 +34,7 @@ class VideoCard extends StatelessWidget {
         const SizedBox(height: 8),
         GestureDetector(
           onTap: _launchUrl,
+          onLongPress: () => _onLongPress(context),
           child: Container(
             height: 165,
             width: double.infinity,

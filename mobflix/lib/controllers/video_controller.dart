@@ -17,6 +17,15 @@ class VideoController {
     await _videoService.addVideo(video);
   }
 
+  Future<void> editVideo(Video video) async {
+    await _validateVideo(video);
+    await _videoService.updateVideo(video);
+  }
+
+  Future<void> removeVideo(Video video) async {
+    await _videoService.deleteVideo(video);
+  }
+
   Future<void> _validateVideo(Video video) async {
     if (video.url.isEmpty) {
       throw const EmptyUrlException();

@@ -25,6 +25,21 @@ class VideoMockService extends ChangeNotifier implements IVideoService {
     notifyListeners();
   }
 
+  @override
+  Future<void> updateVideo(Video video) async {
+    await Future.delayed(const Duration(milliseconds: 350));
+    final index = _videos.indexWhere((element) => element.id == video.id);
+    _videos[index] = video;
+    notifyListeners();
+  }
+
+  @override
+  Future<void> deleteVideo(Video video) async {
+    await Future.delayed(const Duration(milliseconds: 350));
+    _videos.remove(video);
+    notifyListeners();
+  }
+
   _verifyIfVideoExists(Video video) {
     if (_videos.contains(video)) {
       throw const VideoAlreadyRegisteredException();

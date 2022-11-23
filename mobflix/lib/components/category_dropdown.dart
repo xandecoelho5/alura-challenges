@@ -7,9 +7,11 @@ import '../utils/constants.dart';
 class CategoryDropdown extends StatefulWidget {
   const CategoryDropdown({
     Key? key,
+    this.category,
     required this.onSelectCategory,
   }) : super(key: key);
 
+  final Category? category;
   final Function(Category?) onSelectCategory;
 
   @override
@@ -17,7 +19,7 @@ class CategoryDropdown extends StatefulWidget {
 }
 
 class _CategoryDropdownState extends State<CategoryDropdown> {
-  Category? _selectedCategory;
+  late Category? _selectedCategory = widget.category;
 
   @override
   Widget build(BuildContext context) {

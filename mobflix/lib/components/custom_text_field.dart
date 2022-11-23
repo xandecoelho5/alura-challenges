@@ -8,9 +8,11 @@ class CustomTextField extends StatefulWidget {
     required this.hint,
     this.onFocusLost,
     this.onChanged,
+    this.data = '',
   }) : super(key: key);
 
   final String hint;
+  final String data;
   final Function(String)? onFocusLost;
   final Function(String)? onChanged;
 
@@ -25,6 +27,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   void initState() {
     super.initState();
+    _controller.text = widget.data;
     _node = FocusNode();
     _node.addListener(_handleFocusChange);
   }

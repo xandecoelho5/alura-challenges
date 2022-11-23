@@ -5,6 +5,7 @@ const String kYoutubeThumbnailBaseUrl = 'https://img.youtube.com/vi/';
 
 const kBackgroundColor = Color(0xFF222222);
 const kMainBlueColor = Color(0xFF2478DF);
+const kMainRedColor = Color(0xFFD82D2D);
 const kFloatingButtonColor = Color(0xFF7B61FF);
 const kTextFieldColor = Color(0xFF275FA3);
 const kHintTextColor = Color(0xFFB0B0B0);
