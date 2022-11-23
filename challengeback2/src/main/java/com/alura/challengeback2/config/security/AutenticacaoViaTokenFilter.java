@@ -3,6 +3,7 @@ package com.alura.challengeback2.config.security;
 import com.alura.challengeback2.config.security.service.TokenService;
 import com.alura.challengeback2.model.Usuario;
 import com.alura.challengeback2.repository.UsuarioRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -14,15 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
     private final UsuarioRepository usuarioRepository;
-
-    public AutenticacaoViaTokenFilter(TokenService tokenService, UsuarioRepository usuarioRepository) {
-        this.tokenService = tokenService;
-        this.usuarioRepository = usuarioRepository;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
