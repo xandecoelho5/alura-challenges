@@ -1,5 +1,5 @@
 import '../models/category.dart';
 
 abstract class ICategoryService {
-  List<Category> getCategories();
+  Future<List<Category>> getCategories();
 }

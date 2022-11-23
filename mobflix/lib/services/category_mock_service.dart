@@ -15,6 +15,6 @@ class CategoryMockService extends ChangeNotifier implements ICategoryService {
   final List<Category> _categories = [];
 
   @override
-  UnmodifiableListView<Category> getCategories() =>
+  Future<UnmodifiableListView<Category>> getCategories() async =>
       UnmodifiableListView(_categories);
 }

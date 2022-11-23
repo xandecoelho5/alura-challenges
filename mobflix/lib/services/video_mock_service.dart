@@ -15,7 +15,8 @@ class VideoMockService extends ChangeNotifier implements IVideoService {
   final List<Video> _videos = [];
 
   @override
-  UnmodifiableListView<Video> getVideos() => UnmodifiableListView(_videos);
+  Future<UnmodifiableListView<Video>> getVideos() async =>
+      UnmodifiableListView(_videos);
 
   @override
   Future<void> addVideo(Video video) async {

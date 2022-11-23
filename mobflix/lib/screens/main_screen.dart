@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:mobflix/components/app_name.dart';
 import 'package:mobflix/components/category_list.dart';
+import 'package:mobflix/models/category.dart';
+import 'package:mobflix/models/video.dart';
 import 'package:mobflix/screens/register_video_screen.dart';
-import 'package:mobflix/services/category_mock_service.dart';
+import 'package:mobflix/services/category_sqflite_service.dart';
+import 'package:mobflix/services/video_sqflite_service.dart';
 import 'package:provider/provider.dart';
 
 import '../components/highlight_banner.dart';
 import '../components/videos_list.dart';
-import '../services/video_mock_service.dart';
 import '../utils/constants.dart';
 
 class MainScreen extends StatefulWidget {
@@ -18,6 +20,11 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,14 +40,35 @@ class _MainScreenState extends State<MainScreen> {
         children: [
           const HighlightBanner(),
           const SizedBox(height: 10),
-          Consumer<CategoryMockService>(
-            builder: (context, service, child) {
-              return CategoryList(categories: service.getCategories());
+          FutureBuilder<List<Category>>(
+            future:
+                Provider.of<CategorySqfliteService>(context).getCategories(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data!.isEmpty) {
+                  return const Center(
+                    child: Text('Nenhuma categoria encontrada'),
+                  );
+                }
+                return CategoryList(categories: snapshot.data!);
+              } else if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
+              return const Center(child: CircularProgressIndicator());
             },
           ),
-          Consumer<VideoMockService>(
-            builder: (context, service, child) {
-              return VideosList(videos: service.getVideos());
+          FutureBuilder<List<Video>>(
+            future: Provider.of<VideoSqfliteService>(context).getVideos(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data!.isEmpty) {
+                  return const Center(child: Text('Nenhum vídeo encontrado'));
+                }
+                return VideosList(videos: snapshot.data!);
+              } else if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
+              return const Center(child: CircularProgressIndicator());
             },
           ),
         ],

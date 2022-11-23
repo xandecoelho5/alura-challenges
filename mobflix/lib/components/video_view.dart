@@ -38,7 +38,6 @@ class _VideoViewState extends State<VideoView> {
 
   _onFocusLost(String url) => setState(() {
         _video = _video.copyWith(
-          id: url,
           url: '$kYoutubeBaseUrl$url',
           thumbnail: '$kYoutubeThumbnailBaseUrl$url/0.jpg',
         );
@@ -78,7 +77,7 @@ class _VideoViewState extends State<VideoView> {
                       const SizedBox(height: 8),
                       CustomTextField(
                         hint: 'Ex: N3h5A0oAzsk',
-                        data: _video.id,
+                        data: _video.url.split('=').last,
                         onFocusLost: _onFocusLost,
                       ),
                       const SizedBox(height: 20),
