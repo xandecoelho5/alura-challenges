@@ -3,6 +3,7 @@ import 'package:mobflix/components/app_name.dart';
 import 'package:mobflix/components/category_list.dart';
 import 'package:mobflix/models/category.dart';
 import 'package:mobflix/models/video.dart';
+import 'package:mobflix/screens/favorites_screen.dart';
 import 'package:mobflix/screens/register_video_screen.dart';
 import 'package:mobflix/services/category_sqflite_service.dart';
 import 'package:mobflix/services/video_sqflite_service.dart';
@@ -20,10 +21,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  Category? _selectedCategory;
+
+  _onSelectedCategory(Category? c) => setState(() => _selectedCategory = c);
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +34,16 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Colors.transparent,
         centerTitle: true,
         toolbarHeight: 45,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.favorite),
+            splashRadius: 20,
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const FavoritesScreen()),
+            ),
+          ),
+        ],
       ),
       body: Column(
         mainAxisSize: MainAxisSize.min,
@@ -50,7 +60,10 @@ class _MainScreenState extends State<MainScreen> {
                     child: Text('Nenhuma categoria encontrada'),
                   );
                 }
-                return CategoryList(categories: snapshot.data!);
+                return CategoryList(
+                  categories: snapshot.data!,
+                  onSelected: _onSelectedCategory,
+                );
               } else if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               }
@@ -64,7 +77,12 @@ class _MainScreenState extends State<MainScreen> {
                 if (snapshot.data!.isEmpty) {
                   return const Center(child: Text('Nenhum vídeo encontrado'));
                 }
-                return VideosList(videos: snapshot.data!);
+                return Flexible(
+                  child: VideosList(
+                    videos: snapshot.data!,
+                    category: _selectedCategory,
+                  ),
+                );
               } else if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               }

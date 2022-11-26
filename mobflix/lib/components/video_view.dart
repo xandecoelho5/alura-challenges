@@ -99,7 +99,7 @@ class _VideoViewState extends State<VideoView> {
                       ),
                       const SizedBox(height: 8),
                       if (_video.url.isNotEmpty && _video.category != null)
-                        VideoCard(video: _video)
+                        VideoCard(video: _video, canLongPress: false)
                       else
                         Image.asset(Assets.preview),
                     ],

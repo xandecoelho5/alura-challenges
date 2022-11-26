@@ -15,7 +15,7 @@ class SqfliteService implements IDatabaseService {
         await db.execute(
             'CREATE TABLE categories (id INTEGER PRIMARY KEY autoincrement, name TEXT, color TEXT)');
         await db.execute(
-            'CREATE TABLE videos (id INTEGER PRIMARY KEY autoincrement, url TEXT, thumbnail TEXT, category_id INTEGER, FOREIGN KEY (category_id) REFERENCES categories (id))');
+            'CREATE TABLE videos (id INTEGER PRIMARY KEY autoincrement, url TEXT, thumbnail TEXT, is_favorite INTEGER default 0, category_id INTEGER, FOREIGN KEY (category_id) REFERENCES categories (id))');
         await db.execute(
             "INSERT INTO categories (name, color) VALUES ('Front End', '0xFF5781EF')");
         await db.execute(

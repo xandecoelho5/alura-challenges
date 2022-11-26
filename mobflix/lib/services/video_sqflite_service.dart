@@ -23,18 +23,27 @@ class VideoSqfliteService extends ChangeNotifier implements IVideoService {
   }
 
   @override
+  Future<void> updateVideo(Video video) async {
+    await databaseService.update(_table, video.toMap());
+    await _notifyVideos();
+  }
+
+  @override
   Future<List<Video>> getVideos() async {
     final videos = await databaseService.rawQuery(
-      'SELECT v.id, v.url, v.thumbnail, v.category_id, c.name, c.color '
+      'SELECT v.id, v.url, v.thumbnail, v.is_favorite, v.category_id, c.name, c.color '
       'FROM $_table v INNER JOIN categories c ON v.category_id = c.id',
     );
     return videos.map(Video.fromMap).toList();
   }
 
-  @override
-  Future<void> updateVideo(Video video) async {
-    await databaseService.update(_table, video.toMap());
-    await _notifyVideos();
+  Future<List<Video>> getFavoriteVideos() async {
+    final videos = await databaseService.rawQuery(
+      'SELECT v.id, v.url, v.thumbnail, v.is_favorite, v.category_id, c.name, c.color '
+      'FROM $_table v INNER JOIN categories c ON v.category_id = c.id '
+      'WHERE v.is_favorite = 1',
+    );
+    return videos.map(Video.fromMap).toList();
   }
 
   Future<void> _notifyVideos() async {

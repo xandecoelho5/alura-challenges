@@ -10,7 +10,7 @@ const kFloatingButtonColor = Color(0xFF7B61FF);
 const kTextFieldColor = Color(0xFF275FA3);
 const kHintTextColor = Color(0xFFB0B0B0);
 
-const kMainScreenHorizontalPadding = 30.0;
+const kMainScreenHorizontalPadding = 16.0;
 
 const kTextFieldLabelStyle = TextStyle(
   fontFamily: 'Roboto',
